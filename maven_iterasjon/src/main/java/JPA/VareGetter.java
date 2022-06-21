@@ -9,6 +9,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.sun.prism.Image;
@@ -36,7 +37,7 @@ public class VareGetter {
 		return transcript;
 	}
 	
-	public static Product getVre(String barcode) throws URISyntaxException, IOException, InterruptedException {
+	public static Product getVare(String barcode) throws URISyntaxException, IOException, InterruptedException {
 		Product transcript = new Product();
 		Gson gson = new Gson();
 		HttpRequest getRequest = HttpRequest.newBuilder()
@@ -46,7 +47,7 @@ public class VareGetter {
 		HttpClient httpClient =  HttpClient.newHttpClient();
 		HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
 		JsonElement convertedObject = gson.fromJson(getResponse.body(), JsonObject.class).get("data");
-		transcript = gson.fromJson(convertedObject, Product.class);
+		transcript = gson.fromJson(convertedObject.getAsJsonArray(), Product.class);
 		return transcript;
 				
 	}

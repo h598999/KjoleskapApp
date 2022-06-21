@@ -38,7 +38,27 @@ public class Kjøleskap {
 		}
 	}
 	
+	public void leggTil(String id) throws URISyntaxException, IOException, InterruptedException {
+		utvid();
+		Product vare = VareGetter.getVare(id);
+		int finnes = inneholder(vare);
+		if (finnes>=0) {
+			TableEntry<Product, Integer> temp = varer[finnes];
+			varer[finnes] = new TableEntry<Product, Integer>(temp.getKey(), temp.getValue()+1);
+		} else {
+			varer[antall] = new TableEntry<Product,Integer>(vare,1);
+			antall++;
+		}
+	}
+	
+	
 	public void leggTilFlere(int id, int antall) throws URISyntaxException, IOException, InterruptedException {
+		for (int i = 0; i<antall; i++) {
+			leggTil(id);
+		}
+	}
+	
+	public void leggTilFlere(String id, int antall) throws URISyntaxException, IOException, InterruptedException {
 		for (int i = 0; i<antall; i++) {
 			leggTil(id);
 		}

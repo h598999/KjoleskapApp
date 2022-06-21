@@ -86,5 +86,69 @@ public class KjøleskapTest {
 		assertTrue(kjøleskap.inneholder(vare)<0);
 		
 	}
+	
+	@Test
+	public void leggTilTestBar() throws URISyntaxException, IOException, InterruptedException {
+		kjøleskap.leggTil("7610848337010");
+		Product vare = VareGetter.getVare("7610848337010");
+		Product vare1 = VareGetter.getVare("7610849657797");
+		assertEquals(0,kjøleskap.inneholder(vare));
+		kjøleskap.leggTil("7610848337010");
+		
+		kjøleskap.leggTil("7610849657797");
+		assertEquals(1,kjøleskap.inneholder(vare1));
+	
+	}
+	
+	@Test
+	public void leggTilFlereTestBar() throws URISyntaxException, IOException, InterruptedException {
+		kjøleskap.leggTilFlere("7610848337010", 4);
+		Product vare = VareGetter.getVare("7610848337010");
+		assertEquals(0,kjøleskap.inneholder(vare));
+	
+	}
+	
+	@Test
+	public void fjernTestBar() throws URISyntaxException, IOException, InterruptedException {
+		kjøleskap.leggTil("7610848337010");
+		kjøleskap.leggTil("7610849657797");
+		Product vare = VareGetter.getVare("7610848337010");
+		Product vare1 = VareGetter.getVare("7610849657797");
+		kjøleskap.fjern(vare);
+		assertTrue(kjøleskap.inneholder(vare)<0);
+		assertTrue(kjøleskap.inneholder(vare1)==0);
+		kjøleskap.leggTil("7610848337010");
+		kjøleskap.leggTil("7610848337010");
+		kjøleskap.leggTil("7610848337010");
+		kjøleskap.leggTilFlere("7610848337010", 3);
+		assertTrue(kjøleskap.getAntal()==2);
+		assertTrue(kjøleskap.getEntry(vare).getValue()==6);
+		kjøleskap.fjern(vare);
+		assertTrue(kjøleskap.getEntry(vare).getValue()==5);
+		kjøleskap.fjern(vare);
+		assertTrue(kjøleskap.getEntry(vare).getValue()==4);
+		kjøleskap.fjern(vare);
+		assertTrue(kjøleskap.getEntry(vare).getValue()==3);
+		kjøleskap.fjern(vare);
+		assertTrue(kjøleskap.getEntry(vare).getValue()==2);
+		kjøleskap.fjern(vare);
+		assertTrue(kjøleskap.getEntry(vare).getValue()==1);
+		kjøleskap.fjern(vare);
+		assertTrue(kjøleskap.inneholder(vare)<0);
+		assertTrue(kjøleskap.getAntal()==1);
+	}
+	
+	@Test
+	public void fjernFlereTestBar() throws URISyntaxException, IOException, InterruptedException {
+		kjøleskap.leggTilFlere("7610848337010", 5);
+		Product vare = VareGetter.getVare("7610848337010");
+		kjøleskap.fjernFlere(vare, 3);
+		assertTrue(kjøleskap.getEntry(vare).getValue()==2);
+		assertTrue(kjøleskap.getAntal()==1);
+		assertEquals(2,kjøleskap.fjernFlere(vare, 3));
+		assertTrue(kjøleskap.getAntal()==0);
+		assertTrue(kjøleskap.inneholder(vare)<0);
+		
+	}
 
 }
