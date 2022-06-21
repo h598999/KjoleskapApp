@@ -11,9 +11,9 @@ public class Product {
 	
 	private int id;
 	private String barcode;
-	private NameTranslations nameTranslation;
-	private HjelpeKlasser.displayNameTranslation displayNameTranslation;
-	private NameTranslations Ingredients;
+	private NameTranslations name_translations;
+	private HjelpeKlasser.displayNameTranslation display_name_translations;
+	private NameTranslations ingredients_translations;
 	private Origin_translation origins;
 	private String status;
 	private double quantity;
@@ -22,7 +22,7 @@ public class Product {
 	private String portion_unit;
 	private String hundred_unit;
 	private double alcohol_by_volume;
-	private image images;
+	private image[] images;
 	private String created_at;
 	private String updated_at;
 	public int getId() {
@@ -38,22 +38,22 @@ public class Product {
 		this.barcode = barcode;
 	}
 	public NameTranslations getNameTranslation() {
-		return nameTranslation;
+		return name_translations;
 	}
 	public void setNameTranslation(NameTranslations nameTranslation) {
-		this.nameTranslation = nameTranslation;
+		this.name_translations = nameTranslation;
 	}
 	public HjelpeKlasser.displayNameTranslation getDisplayNameTranslation() {
-		return displayNameTranslation;
+		return display_name_translations;
 	}
 	public void setDisplayNameTranslation(HjelpeKlasser.displayNameTranslation displayNameTranslation) {
-		this.displayNameTranslation = displayNameTranslation;
+		this.display_name_translations = displayNameTranslation;
 	}
 	public NameTranslations getIngredients() {
-		return Ingredients;
+		return ingredients_translations;
 	}
 	public void setIngredients(NameTranslations ingredients) {
-		Ingredients = ingredients;
+		ingredients_translations = ingredients;
 	}
 	public Origin_translation getOrigins() {
 		return origins;
@@ -103,10 +103,10 @@ public class Product {
 	public void setAlcohol_by_volume(double alcohol_by_volume) {
 		this.alcohol_by_volume = alcohol_by_volume;
 	}
-	public image getImages() {
+	public image[] getImages() {
 		return images;
 	}
-	public void setImages(image images) {
+	public void setImages(image[] images) {
 		this.images = images;
 	}
 
@@ -121,6 +121,40 @@ public class Product {
 	}
 	public void setUpdated_at(String updated_at) {
 		this.updated_at = updated_at;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((barcode == null) ? 0 : barcode.hashCode());
+		result = prime * result + id;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (barcode == null) {
+			if (other.barcode != null)
+				return false;
+		} else if (!barcode.equals(other.barcode))
+			return false;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+	
+	public String toString() {
+		String str = id + "," + barcode + "," + name_translations.toString() + "," + display_name_translations.toString() + "," + ingredients_translations.toString() + ",";
+		for (int i = 0; i<images.length; i++) {
+			str += images[i].toString();
+		}
+		return str;
 	}
 	
 	

@@ -13,6 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.sun.prism.Image;
 
+import Entiteter.Product;
 import Entiteter.Vare;
 import HjelpeKlasser.NameTranslations;
 import HjelpeKlasser.displayNameTranslation;
@@ -20,8 +21,8 @@ import HjelpeKlasser.image;
 
 public class VareGetter {
 
-	public static Vare getVare(int id) throws URISyntaxException, IOException, InterruptedException {
-		Transcript transcript = new Transcript();
+	public static Product getVare(int id) throws URISyntaxException, IOException, InterruptedException {
+		Product transcript = new Product();
 		image bilde = new image();
 		Gson gson = new Gson();
 		HttpRequest getRequest = HttpRequest.newBuilder()
@@ -31,18 +32,9 @@ public class VareGetter {
 		HttpClient httpClient = HttpClient.newHttpClient();
 		HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
 		JsonElement convertedObject = gson.fromJson(getResponse.body(), JsonObject.class).get("data");
-		JsonElement name_translations = gson.fromJson(getResponse.body(), JsonObject.class).get("name_translations");
-		JsonElement display_name_translations = gson.fromJson(getResponse.body(), JsonObject.class).get("display_name_translations");
-		JsonElement images = gson.fromJson(getResponse.body(), JsonObject.class).get("images");
-		bilde = gson.fromJson(images, image.class);
-		displayNameTranslation displayTranslations = gson.fromJson(display_name_translations, displayNameTranslation.class);
-		NameTranslations translations = gson.fromJson(name_translations, NameTranslations.class);
-		System.out.println(bilde.toString());
-		System.out.println(translations.toString());
-		System.out.println(displayTranslations);
-		transcript = gson.fromJson(convertedObject, Transcript.class);
-		System.out.println(getResponse.body());
-		return new Vare(transcript.getId(),transcript.getBarcode());
+		transcript = gson.fromJson(convertedObject, Product.class);
+		return transcript;
+		
 		
 	}
 	

@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.net.URI;
 
 import Entiteter.Kjøleskap;
 import javafx.event.ActionEvent;
@@ -11,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class FridgeSceneController {
@@ -18,7 +21,7 @@ public class FridgeSceneController {
 	private Stage stage;
 	private Parent root;
 	private Scene scene;
-	private Kjøleskap kjøleskap;
+	private Kjøleskap kjøleskap = new Kjøleskap();
 	@FXML
 	private Button fridgeButton;
 	@FXML
@@ -27,6 +30,10 @@ public class FridgeSceneController {
 	private Button visButton;
 	@FXML
 	private Label varer;
+	@FXML
+	private ImageView myImageView;
+	String url = (kjøleskap.getAlle()[0].getKey().getImages()[0].getThumb());
+	Image bilde = new Image(getClass().getResourceAsStream(url));
 
 	public void switchToAdd(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Scene1.fxml"));
@@ -50,6 +57,7 @@ public class FridgeSceneController {
 	
 	public void visVarer(ActionEvent event) {
 		varer.setText(kjøleskap.toString());
+		myImageView.setImage(bilde);
 		System.out.println(kjøleskap.toString());
 		System.out.println(kjøleskap.toString().equals(""));
 	}

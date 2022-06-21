@@ -24,12 +24,5 @@ public class NameTranslations {
 	public void setIt(String it) {
 		this.it = it;
 	}
-	public String getEn() {
-		return en;
-	}
-	public void setEn(String en) {
-		this.en = en;
-	}
-	private String en;
 	
 }

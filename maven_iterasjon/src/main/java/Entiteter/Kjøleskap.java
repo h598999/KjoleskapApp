@@ -9,7 +9,7 @@ import JPA.VareGetter;
 public class Kjøleskap {
 
 	private int antall;
-	private TableEntry<Vare, Integer>[] varer;
+	private TableEntry<Product, Integer>[] varer;
 	private final int STANDARD_VALUE = 15;
 	
 	@SuppressWarnings("unchecked")
@@ -26,13 +26,13 @@ public class Kjøleskap {
 	
 	public void leggTil(int id) throws URISyntaxException, IOException, InterruptedException {
 		utvid();
-		Vare vare = VareGetter.getVare(id);
+		Product vare = VareGetter.getVare(id);
 		int finnes = inneholder(vare);
 		if (finnes>=0) {
-			TableEntry<Vare, Integer> temp = varer[finnes];
-			varer[finnes] = new TableEntry<Vare, Integer>(temp.getKey(), temp.getValue()+1);
+			TableEntry<Product, Integer> temp = varer[finnes];
+			varer[finnes] = new TableEntry<Product, Integer>(temp.getKey(), temp.getValue()+1);
 		} else {
-			varer[antall] = new TableEntry<Vare,Integer>(vare,1);
+			varer[antall] = new TableEntry<Product,Integer>(vare,1);
 			antall++;
 		}
 	}
@@ -43,7 +43,7 @@ public class Kjøleskap {
 		}
 	}
 	
-	public boolean fjern(Vare vare) {
+	public boolean fjern(Product vare) {
 		if (erTom())
 			return false;
 		boolean fjernet = false;
@@ -58,14 +58,14 @@ public class Kjøleskap {
 				antall--;
 			} else {
 				int tidligereVerdi = varer[finnes].getValue();
-				varer[finnes] = new TableEntry<Vare, Integer>(varer[finnes].getKey(), tidligereVerdi-1);
+				varer[finnes] = new TableEntry<Product, Integer>(varer[finnes].getKey(), tidligereVerdi-1);
 				fjernet = true;
 			}
 		}
 		return fjernet;
 	}
 	
-	public int fjernFlere(Vare vare, int antall) {
+	public int fjernFlere(Product vare, int antall) {
 		int fjernet = 0;
 		int finnes = inneholder(vare);
 		int i = 0;
@@ -80,7 +80,7 @@ public class Kjøleskap {
 	}
 	
 	
-	public int inneholder(Vare vare) {
+	public int inneholder(Product vare) {
 		
 		if (erTom())
 		return -1;
@@ -97,10 +97,10 @@ public class Kjøleskap {
 		return funnet;
 	}
 	
-	public TableEntry<Vare, Integer> getEntry(Vare vare) {
+	public TableEntry<Product, Integer> getEntry(Product vare) {
 		int finnes = inneholder(vare);
 		if (finnes>=0) {
-		TableEntry<Vare,Integer> temp = varer[finnes];
+		TableEntry<Product,Integer> temp = varer[finnes];
 		return temp;
 		}
 		return null;
@@ -110,7 +110,7 @@ public class Kjøleskap {
 	private void utvid() {
 		if (varer.length-1==antall) {
 			@SuppressWarnings("unchecked")
-			TableEntry<Vare, Integer>[] temp = new TableEntry[(varer.length)*2];
+			TableEntry<Product, Integer>[] temp = new TableEntry[(varer.length)*2];
 			for (int i = 0; i<antall; i++) {
 				temp[i] = varer[i];
 			}
@@ -125,7 +125,7 @@ public class Kjøleskap {
 		return antall;
 	}
 	
-	public TableEntry<Vare,Integer>[] getAlle(){
+	public TableEntry<Product,Integer>[] getAlle(){
 		return varer;
 	}
 	

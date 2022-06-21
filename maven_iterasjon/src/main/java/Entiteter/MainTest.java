@@ -25,16 +25,21 @@ public class MainTest {
 	
 	
 	Transcript transcript = new Transcript();
-	image bilde = new image();
+	Product product = new Product();
 	Gson gson = new Gson();
 	HttpRequest getRequest = HttpRequest.newBuilder()
-		.uri(new URI("https://www.foodrepo.org/api/v3/products/"+"2080"))
+		.uri(new URI("https://www.foodrepo.org/api/v3/products/"+"2030"))
 		.header("Authorization","Token token=536f731144fa1ba705ebe3338271ba5f")
 		.build();
 	HttpClient httpClient = HttpClient.newHttpClient();
 	HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
-	JsonArray images = gson.fromJson(getResponse.body(), JsonObject.class).getAsJsonObject().get("data").getAsJsonObject().get("images").getAsJsonArray();
-	System.out.println(images.toString());
+	JsonElement images = gson.fromJson(getResponse.body(), JsonObject.class).get("data");
+	JsonElement displayName = gson.fromJson(getResponse.body(), JsonObject.class).get("data").getAsJsonObject().get("name_translations");
+	displayNameTranslation nameTranslation = gson.fromJson(displayName, displayNameTranslation.class);
+	product = gson.fromJson(images, Product.class);
+
+	System.out.println(product.getImages()[0].getThumb());
+	System.out.println(product.getDisplayNameTranslation().toString());
 
 
 	

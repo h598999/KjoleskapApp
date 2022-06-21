@@ -31,4 +31,9 @@ public class displayNameTranslation {
 	}
 	private String en;
 	
+	public String toString() {
+		String str = "de: " + de + "," + "\n" + "fr: "+ fr + "," + "\n" + "it: "  + it;
+		return str;
+	}
+	
 }
