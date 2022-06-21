@@ -1,5 +1,16 @@
 package HjelpeKlasser;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+
 public class image {
 	
 	private String[] categories;
@@ -48,5 +59,25 @@ public class image {
 		return str;
 	}
 	
+	
 
+	public static Image createImageIcon(String imageURL) {
+		try {
+			URL url = new URL(imageURL);
+			BufferedImage c = ImageIO.read(url);
+
+			return SwingFXUtils.toFXImage(c, null);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	
 }
+

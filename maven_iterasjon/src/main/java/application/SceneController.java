@@ -53,13 +53,12 @@ public class SceneController  {
 		
 		FridgeSceneController scene2Controller = loader.getController();
 		scene2Controller.setKjøleskap(kjøleskap);
-		
 		//root = FXMLLoader.load(getClass().getResource("Scene2.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 	
 		stage.setScene(scene);
-		stage.setMaximized(true);
+		
 		stage.show();
 
 	}

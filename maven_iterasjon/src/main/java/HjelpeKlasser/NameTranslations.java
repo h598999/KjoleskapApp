@@ -24,5 +24,9 @@ public class NameTranslations {
 	public void setIt(String it) {
 		this.it = it;
 	}
+
+	public String toString() {
+		return "de: " + de + "\n" +  "fr: "+ "\n" + fr + "\n" + "it: " + it; 
+	}
 	
 }

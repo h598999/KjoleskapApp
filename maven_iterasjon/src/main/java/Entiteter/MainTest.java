@@ -38,7 +38,7 @@ public class MainTest {
 	displayNameTranslation nameTranslation = gson.fromJson(displayName, displayNameTranslation.class);
 	product = gson.fromJson(images, Product.class);
 
-	System.out.println(product.getImages()[0].getThumb());
+	
 	System.out.println(product.getDisplayNameTranslation().toString());
 
 

@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 
 import HjelpeKlasser.TableEntry;
 import JPA.VareGetter;
+import javafx.scene.image.Image;
 
 public class Kjøleskap {
 
@@ -117,6 +118,9 @@ public class Kjøleskap {
 			varer = temp;
 		}
 	}
+	
+
+	
 	public boolean erTom() {
 		return antall==0;
 	}
@@ -127,6 +131,10 @@ public class Kjøleskap {
 	
 	public TableEntry<Product,Integer>[] getAlle(){
 		return varer;
+	}
+	
+	public String entryToString(int i) {
+		return "id" + varer[i].getKey().getId() + " Strekkode: " + varer[i].getKey().getBarcode() + " Antall: " + varer[i].getValue();
 	}
 	
 	public String toString() {

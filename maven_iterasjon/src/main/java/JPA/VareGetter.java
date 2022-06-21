@@ -23,7 +23,7 @@ public class VareGetter {
 
 	public static Product getVare(int id) throws URISyntaxException, IOException, InterruptedException {
 		Product transcript = new Product();
-		image bilde = new image();
+	
 		Gson gson = new Gson();
 		HttpRequest getRequest = HttpRequest.newBuilder()
 			.uri(new URI("https://www.foodrepo.org/api/v3/products/"+id))
@@ -34,8 +34,21 @@ public class VareGetter {
 		JsonElement convertedObject = gson.fromJson(getResponse.body(), JsonObject.class).get("data");
 		transcript = gson.fromJson(convertedObject, Product.class);
 		return transcript;
-		
-		
+	}
+	
+	public static Product getVre(String barcode) throws URISyntaxException, IOException, InterruptedException {
+		Product transcript = new Product();
+		Gson gson = new Gson();
+		HttpRequest getRequest = HttpRequest.newBuilder()
+				.uri(new URI("https://www.foodrepo.org/api/v3/products?barcodes="+barcode))
+				.header("Authorization", "Token token=536f731144fa1ba705ebe3338271ba5f")
+				.build();
+		HttpClient httpClient =  HttpClient.newHttpClient();
+		HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+		JsonElement convertedObject = gson.fromJson(getResponse.body(), JsonObject.class).get("data");
+		transcript = gson.fromJson(convertedObject, Product.class);
+		return transcript;
+				
 	}
 	
 }
