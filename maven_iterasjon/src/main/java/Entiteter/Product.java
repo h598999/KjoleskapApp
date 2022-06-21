@@ -25,6 +25,8 @@ public class Product {
 	private image[] images;
 	private String created_at;
 	private String updated_at;
+	
+	
 	public int getId() {
 		return id;
 	}

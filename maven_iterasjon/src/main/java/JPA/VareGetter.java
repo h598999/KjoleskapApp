@@ -14,8 +14,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.sun.prism.Image;
 
+import Entiteter.Kjøleskap;
 import Entiteter.Product;
 import Entiteter.Vare;
+import HjelpeKlasser.BarCodeSaver;
 import HjelpeKlasser.NameTranslations;
 import HjelpeKlasser.displayNameTranslation;
 import HjelpeKlasser.image;
@@ -47,9 +49,49 @@ public class VareGetter {
 		HttpClient httpClient =  HttpClient.newHttpClient();
 		HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
 		JsonElement convertedObject = gson.fromJson(getResponse.body(), JsonObject.class).get("data");
-		transcript = gson.fromJson(convertedObject.getAsJsonArray(), Product.class);
+		transcript = gson.fromJson(convertedObject.getAsJsonArray().get(0), Product.class);
 		return transcript;
 				
+	}
+	
+	public static void getVarer(Kjøleskap kjøleskap, BarCodeSaver saver) {
+		try {
+		String getString = "https://www.foodrepo.org/api/v3/products?barcodes="+saver.getBarCodes()[0].getKey();
+		Gson gson = new Gson();
+		Product transcript = new Product();
+		Product[] varer = new Product[saver.getAntall()];
+		for (int i = 1; i<saver.getAntall(); i++) {
+			getString+= "%2C"+saver.getBarCodes()[i].getKey();
+		}
+		System.out.println(getString);
+			HttpRequest getRequest = HttpRequest.newBuilder()
+					.uri(new URI(getString))
+					.header("Authorization", "Token token=536f731144fa1ba705ebe3338271ba5f")
+					.build();
+			HttpClient httpClient = HttpClient.newHttpClient();
+			HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
+			JsonElement productArray = gson.fromJson(getResponse.body(), JsonObject.class).get("data");
+			System.out.println(productArray.toString());
+			
+			for (int i = 0; i<varer.length; i++) {
+				transcript = gson.fromJson(productArray.getAsJsonArray().get(i), Product.class);
+				System.out.println(transcript.toString());
+				System.out.println(i);
+				System.out.println(saver.getBarCodes()[i].getValue());
+				kjøleskap.leggTilFlere(transcript, saver.getBarCodes()[i].getValue());
+			}
+			
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

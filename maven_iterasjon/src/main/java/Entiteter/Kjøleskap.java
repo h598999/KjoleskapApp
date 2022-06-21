@@ -51,16 +51,36 @@ public class Kjøleskap {
 		}
 	}
 	
+	public void leggTil(Product vare) {
+		utvid();
+		int finnes = inneholder(vare);
+		if (finnes>=0) {
+			TableEntry<Product,Integer> temp = varer[finnes];
+			varer[finnes] = new TableEntry<Product,Integer>(temp.getKey(),temp.getValue()+1);
+		} else {
+			varer[antall] = new TableEntry<Product,Integer>(vare,1);
+			antall++;
+		}
+	}
 	
 	public void leggTilFlere(int id, int antall) throws URISyntaxException, IOException, InterruptedException {
+		utvid();
 		for (int i = 0; i<antall; i++) {
 			leggTil(id);
 		}
 	}
 	
 	public void leggTilFlere(String id, int antall) throws URISyntaxException, IOException, InterruptedException {
+		utvid();
 		for (int i = 0; i<antall; i++) {
 			leggTil(id);
+		}
+	}
+	
+	public void leggTilFlere(Product vare, int antall) {
+		utvid();
+		for (int i = 0; i<antall; i++) {
+			leggTil(vare);
 		}
 	}
 	
@@ -128,19 +148,6 @@ public class Kjøleskap {
 		
 	}
 	
-	private void utvid() {
-		if (varer.length-1==antall) {
-			@SuppressWarnings("unchecked")
-			TableEntry<Product, Integer>[] temp = new TableEntry[(varer.length)*2];
-			for (int i = 0; i<antall; i++) {
-				temp[i] = varer[i];
-			}
-			varer = temp;
-		}
-	}
-	
-
-	
 	public boolean erTom() {
 		return antall==0;
 	}
@@ -163,6 +170,17 @@ public class Kjøleskap {
 			str+= varer[i].toString() + "\n";
 		}
 		return str;
+	}
+
+	private void utvid() {
+		if (varer.length-1==antall) {
+			@SuppressWarnings("unchecked")
+			TableEntry<Product, Integer>[] temp = new TableEntry[(varer.length)*2];
+			for (int i = 0; i<antall; i++) {
+				temp[i] = varer[i];
+			}
+			varer = temp;
+		}
 	}
 	
 }

@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import Entiteter.Kjøleskap;
 import Entiteter.Product;
-import Entiteter.Vare;
+import HjelpeKlasser.BarCodeSaver;
 import JPA.VareGetter;
 
 public class KjøleskapTest {
@@ -148,6 +148,24 @@ public class KjøleskapTest {
 		assertEquals(2,kjøleskap.fjernFlere(vare, 3));
 		assertTrue(kjøleskap.getAntal()==0);
 		assertTrue(kjøleskap.inneholder(vare)<0);
+		
+	}
+	
+	@Test
+	public void leggTilFlereBar2() throws URISyntaxException, IOException, InterruptedException {
+		BarCodeSaver saver = new BarCodeSaver();
+		saver.add("7610848337010");
+		saver.add("7610849657797");
+		saver.add("7610848337010");
+		saver.add("7610849657797");
+		
+		VareGetter.getVarer(kjøleskap, saver);
+		
+		//assertTrue(kjøleskap.inneholder(VareGetter.getVare("7610848337010"))>=0);
+		//assertTrue(kjøleskap.inneholder(VareGetter.getVare("7610849657797"))==1);
+		assertTrue(kjøleskap.getAntal()==2);
+		assertTrue(kjøleskap.getAlle()[0].getValue()==2);
+		assertTrue(kjøleskap.getAlle()[1].getValue()==2);
 		
 	}
 
