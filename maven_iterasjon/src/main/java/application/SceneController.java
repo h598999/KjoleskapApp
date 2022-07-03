@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import Entiteter.Kjøleskap;
 import Entiteter.Vare;
+import HjelpeKlasser.BarCodeSaver;
 import HjelpeKlasser.TableEntry;
 import JPA.VareGetter;
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ public class SceneController  {
 	private Scene scene;
 	private Parent root;
 	private Kjøleskap kjøleskap = new Kjøleskap();
+	private BarCodeSaver saver = new BarCodeSaver();
 
 	
 	@FXML
@@ -37,17 +39,18 @@ public class SceneController  {
 	
 	@FXML
 	TextField leggTilFelt;
-	
+	@FXML
+	private Button addButton;
 	@FXML
 	private Button fridgeButton;
 	@FXML
-	private Button addButton;
+	private Button EnterButton;
 	@FXML
 	private Label varer;
 	
 	
 	public void switchToFridge(ActionEvent event) throws IOException {
-	
+		VareGetter.getVarer(kjøleskap, saver);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Fridge.fxml"));
 		root = loader.load();
 		
@@ -63,11 +66,13 @@ public class SceneController  {
 
 	}
 	
-	
+	public void Enter(ActionEvent event) {
+		saver.add(leggTilFelt.getText());
+		leggTilFelt.setText("");
+	}
 	
 	public void leggTil(ActionEvent event) throws URISyntaxException, IOException, InterruptedException {
-		int id = Integer.parseInt(leggTilFelt.getText());
-		kjøleskap.leggTil(id);
+		VareGetter.getVarer(kjøleskap, saver);
 	}
 	
 	

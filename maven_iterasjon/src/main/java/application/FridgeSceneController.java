@@ -87,6 +87,7 @@ public class FridgeSceneController {
 		String css = this.getClass().getResource("application.css").toExternalForm();
 		scene.getStylesheets().add(css);
 		stage.setScene(scene);
+		
 		stage.show();
 
 	}

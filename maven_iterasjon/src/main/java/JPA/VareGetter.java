@@ -71,13 +71,10 @@ public class VareGetter {
 			HttpClient httpClient = HttpClient.newHttpClient();
 			HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
 			JsonElement productArray = gson.fromJson(getResponse.body(), JsonObject.class).get("data");
-			System.out.println(productArray.toString());
+			
 			
 			for (int i = 0; i<varer.length; i++) {
 				transcript = gson.fromJson(productArray.getAsJsonArray().get(i), Product.class);
-				System.out.println(transcript.toString());
-				System.out.println(i);
-				System.out.println(saver.getBarCodes()[i].getValue());
 				kjøleskap.leggTilFlere(transcript, saver.getBarCodes()[i].getValue());
 			}
 			
